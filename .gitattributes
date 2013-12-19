@@ -1,0 +1,3 @@
+# Auslassen von Dateien beim Export des Git-Repositories
+.gitignore export-ignore
+.gitatttributes export-ignore
