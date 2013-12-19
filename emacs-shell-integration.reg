@@ -1,0 +1,111 @@
+Windows Registry Editor Version 5.00
+
+; Emacs-App Path Definition
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\emacs.exe]
+@="C:\\Opt\\emacs-24.3\\bin\\runemacs.exe"
+"Path"="C:\\Opt\\emacs-24.3\\bin"
+
+
+; Emacs-Text Filetype-Definition
+[HKEY_CLASSES_ROOT\EmacsFile]
+"Content-Type"="text/plain"
+@="Emacs Textdokument"
+
+[HKEY_CLASSES_ROOT\EmacsFile\DefaultIcon]
+@="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CLASSES_ROOT\EmacsFile\Shell]
+
+[HKEY_CLASSES_ROOT\EmacsFile\Shell\open]
+@="Open In Emacs"
+
+[HKEY_CLASSES_ROOT\EmacsFile\Shell\open\command]
+@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na C:\\Opt\\emacs-24.3\\bin\\runemacs.exe \"%1\""
+
+
+; Emacs-Lisp Filetype-Definition
+[HKEY_CLASSES_ROOT\EmacsLisp]
+
+[HKEY_CLASSES_ROOT\EmacsLisp\DefaultIcon]
+@="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CLASSES_ROOT\EmacsLisp\Shell]
+
+[HKEY_CLASSES_ROOT\EmacsLisp\Shell\Open]
+
+[HKEY_CLASSES_ROOT\EmacsLisp\Shell\Open\command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" \"%1\""
+
+
+; Emacs Shell Integration unabhängig vom Dateityp
+[HKEY_CLASSES_ROOT\*\shell]
+
+[HKEY_CLASSES_ROOT\*\shell\EditInEmacs]
+@="Edit with Emacs"
+"Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CLASSES_ROOT\*\shell\EditInEmacs\command]
+; Das Kommando erwartet einen laufenden EMACS-Server. Wenn dieser nicht
+; gefunden wird, wird ein alternativer Editor gestartet. Hier also
+; runemacs.exe. Das Arbeiten mit einem Server macht durchaus Sinn.
+; Der Parameter für den alternativen Editor kann entfallen, wenn im
+; System entsprechende Voreinstellungen gesetzt wurden.
+; http://www.emacswiki.org/emacs/EmacsClient
+@="C:\\Opt\\emacs-24.3\\bin\emacsclientw.exe -na C:\\Opt\\emacs-24.3\\bin\\runemacs.exe  \"%1\""
+
+[HKEY_CLASSES_ROOT\Directory\shell\EditInEmacs]
+@="Edit with Emacs"
+
+[HKEY_CLASSES_ROOT\Directory\shell\EditInEmacs\command]
+@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na C:\\Opt\\emacs-24.3\\bin\\runemacs.exe \"%1\""
+
+; Erweiterung der Dateizuständigkeit
+[HKEY_CLASSES_ROOT\*\OpenWithList\emacs.exe]
+
+[HKEY_CLASSES_ROOT\.xml\OpenWithList\emacs.exe]
+
+[HKEY_CLASSES_ROOT\.cs\OpenWithProgIDs]
+"EmacsFile"=""
+
+[HKEY_CLASSES_ROOT\.css\OpenWithProgIDs]
+"EmacsFile"=""
+
+[HKEY_CLASSES_ROOT\.csv\OpenWithProgIDs]
+"EmacsFile"=""
+
+[HKEY_CLASSES_ROOT\.txt\OpenWithProgIDs]
+"EmacsFile"=""
+
+[HKEY_CLASSES_ROOT\.xsl\OpenWithProgIDs]
+"EmacsFile"=""
+
+[HKEY_CLASSES_ROOT\.xslt\OpenWithProgIDs]
+"EmacsFile"=""
+
+
+; Emacs-Application Definition
+[HKEY_CLASSES_ROOT\Applications\emacs.exe]
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\shell]
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\shell\edit]
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\shell\edit\command]
+@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" \"%1\""
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\shell\open]
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\shell\open\command]
+@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" \"%1\""
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\SupportedTypes]
+".c"=""
+".cs"=""
+".css"=""
+".csv"=""
+".htm"=""
+".html"=""
+".rtf"=""
+".txt"=""
+".xsl"=""
+".xml"=""
