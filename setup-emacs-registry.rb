@@ -63,7 +63,7 @@ def xml_file_types
 end
 
 def scripting_file_types
-  %w(.bas .bat .cls .cmd .frm .ps1 .vbs)
+  %w(.bas .bat .cls .cmd .frm .ps1 .py .rb .vbs)
 end
 
 def progid_emacs_text (hive, emacs_root_dir)
@@ -160,9 +160,22 @@ def software_app_path (hive, emacs_root_dir)
 !
 end
 
+def user_environment_vars (hive, emacs_root_dir)
+  %!
+; Emacs-Environment Definition
+[#{hive}\\Software\\GNU]
+
+[#{hive}\\Software\\GNU\\Emacs]
+"HOME"=hex(2):25,00,41,00,50,00,50,00,44,00,41,00,54,00,41,00,25,00,00,00
+"ALTERNATE_EDITOR"="#{emacs_root_dir}\\\\bin\\\\runemacs.exe"
+
+!
+end
+
 emacs_folder = "C:\\\\Opt\\\\emacs-24.3"
-registry_hive = "HKEY_LOCAL_MACHINE"
-registry_hive = "HKEY_CURRENT_USER"
+machine_registry_hive = "HKEY_LOCAL_MACHINE"
+user_registry_hive = "HKEY_CURRENT_USER"
+registry_hive = user_registry_hive
 
 reg_file_name = "emacs-setup.reg"
 
@@ -179,5 +192,6 @@ reg_file.puts progid_emacs_lisp_source(registry_hive, emacs_folder)
 reg_file.puts progid_emacs_lisp_bytecode(registry_hive, emacs_folder)
 
 reg_file.puts software_app_path(registry_hive, emacs_folder)
+reg_file.puts user_environment_vars(user_registry_hive, emacs_folder)
 
 reg_file.close
