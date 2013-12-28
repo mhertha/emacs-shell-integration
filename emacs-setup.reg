@@ -1,0 +1,128 @@
+Windows Registry Editor Version 5.00
+
+; Emacs Shell Addition
+[HKEY_CURRENT_USER\Software\Classes\*\OpenWithList\emacs.exe]
+
+; Emacs Handler for Perceived Types
+[HKEY_CURRENT_USER\Software\Classes\SystemFileAssociations\text\OpenWithList\emacs.exe]
+
+
+; Emacs-Application Definition
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe]
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe\Shell]
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe\Shell\Edit]
+@="Bearbeiten mit Emacs"
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe\Shell\Edit\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" -c \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe\Shell\Open]
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe\Shell\Open\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" -c \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe\SupportedTypes]
+".bas"=""
+".bat"=""
+".c"=""
+".cc"=""
+".cls"=""
+".cmd"=""
+".cpp"=""
+".cs"=""
+".css"=""
+".csv"=""
+".cxx"=""
+".frm"=""
+".h"=""
+".htm"=""
+".html"=""
+".ini"=""
+".ps1"=""
+".reg"=""
+".rtf"=""
+".shtml"=""
+".txt"=""
+".vbs"=""
+".xml"=""
+".xsl"=""
+".xslt"=""
+
+; Emacs Text Document
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextDocument]
+@="Emacs Textdokument"
+"Content-Type"="text/plain"
+"FriendlyTypeName"="Emacs Textdokument"
+"InfoTip"="Bearbeite die Textdatei in einem neuen Emacs-Frame."
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextDocument\DefaultIcon]
+@="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextDocument\Shell]
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextDocument\Shell\Edit]
+@="Bearbeiten mit Emacs"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextDocument\Shell\Edit\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" -c \"%1\""
+
+
+; Emacs Lisp Source Code
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource]
+@="Emacs Lisp Source"
+"Content-Type"="text/plain"
+"FriendlyTypeName"="Emacs Lisp Source"
+"InfoTip"="Bearbeite die Lisp-Quelldatei in einem neuen Emacs-Frame."
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\DefaultIcon]
+@="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\Shell]
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\Shell\Edit]
+@="Bearbeiten mit Emacs"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\Shell\Edit\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" -c \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\Shell\Compile]
+@="Kompiliere mit Emacs"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\Shell\Compile\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacs.exe\" -batch -f \"batch-byte-compile\" \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\.el]
+@="Emacs.LispSource"
+"PerceivedType"="text"
+
+
+; Emacs Lisp ByteCode
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode]
+@="Emacs Lisp ByteCode"
+"FriendlyTypeName"="Emacs Lisp ByteCode"
+"InfoTip"="Führe das Programm im Batchmode mit Emacs aus."
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode\DefaultIcon]
+@="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode\Shell]
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode\Shell\Run]
+@="Ausführen im Batch"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode\Shell\Run\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacs.exe\" -batch -l \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\.elc]
+@="Emacs.LispByteCode"
+
+
+; Application Registration
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths\emacs.exe]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -c"
+"Path"="C:\\Opt\\emacs-24.3\\bin"
+"HOME"=hex(2):25,00,41,00,50,00,50,00,44,00,41,00,54,00,41,00,25,00,00,00
+"ALTERNATE_EDITOR"="C:\\Opt\\emacs-24.3\\bin\\runemacs.exe"
+
