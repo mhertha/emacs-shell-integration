@@ -8,6 +8,44 @@ Windows Registry Editor Version 5.00
 "ALTERNATE_EDITOR"="C:\\Opt\\emacs-24.3\\bin\\runemacs.exe"
 
 
+; Emacs-Application Definition
+[HKEY_CLASSES_ROOT\Applications\emacs.exe]
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\Shell]
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\Shell\Edit]
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\Shell\Edit\Command]
+@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" -c \"%1\""
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\Shell\Open]
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\Shell\Open\Command]
+@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" -c \"%1\""
+
+[HKEY_CLASSES_ROOT\Applications\emacs.exe\SupportedTypes]
+".bas"=""
+".bat"=""
+".c"=""
+".cc"=""
+".cls"=""
+".cmd"=""
+".cpp"=""
+".cs"=""
+".css"=""
+".csv"=""
+".frm"=""
+".h"=""
+".htm"=""
+".html"=""
+".rtf"=""
+".shtml"=""
+".txt"=""
+".vbs"=""
+".xsl"=""
+".xml"=""
+
+
 ; Emacs-Text Filetype-Definition
 [HKEY_CLASSES_ROOT\EmacsFile]
 "Content-Type"="text/plain"
@@ -18,11 +56,11 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CLASSES_ROOT\EmacsFile\Shell]
 
-[HKEY_CLASSES_ROOT\EmacsFile\Shell\open]
-@="Open In Emacs"
+[HKEY_CLASSES_ROOT\EmacsFile\Shell\Open]
+@="Öffnen mit Emacs"
 
-[HKEY_CLASSES_ROOT\EmacsFile\Shell\open\command]
-@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na C:\\Opt\\emacs-24.3\\bin\\runemacs.exe \"%1\""
+[HKEY_CLASSES_ROOT\EmacsFile\Shell\Open\Command]
+@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na C:\Opt\\emacs-24.3\\bin\\runemacs.exe \"%1\""
 
 
 ; Emacs-Lisp Filetype-Definition
@@ -35,15 +73,15 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CLASSES_ROOT\EmacsLisp\Shell\Open]
 
-[HKEY_CLASSES_ROOT\EmacsLisp\Shell\Open\command]
+[HKEY_CLASSES_ROOT\EmacsLisp\Shell\Open\Command]
 @="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" \"%1\""
 
 
 ; Emacs Shell Integration unabhängig vom Dateityp
-[HKEY_CLASSES_ROOT\*\shell]
+[HKEY_CLASSES_ROOT\*\Shell]
 
-[HKEY_CLASSES_ROOT\*\shell\EditInEmacs]
-@="Edit with Emacs"
+[HKEY_CLASSES_ROOT\*\Shell\EditInEmacs]
+@="Bearbeiten mit Emacs"
 "Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
 
 [HKEY_CLASSES_ROOT\*\shell\EditInEmacs\command]
@@ -55,11 +93,11 @@ Windows Registry Editor Version 5.00
 ; http://www.emacswiki.org/emacs/EmacsClient
 @="C:\\Opt\\emacs-24.3\\bin\emacsclientw.exe -na C:\\Opt\\emacs-24.3\\bin\\runemacs.exe  \"%1\""
 
-[HKEY_CLASSES_ROOT\Directory\shell\EditInEmacs]
+[HKEY_CLASSES_ROOT\Directory\Shell\EditInEmacs]
 @="Edit with Emacs"
 
-[HKEY_CLASSES_ROOT\Directory\shell\EditInEmacs\command]
-@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na C:\\Opt\\emacs-24.3\\bin\\runemacs.exe \"%1\""
+[HKEY_CLASSES_ROOT\Directory\Shell\EditInEmacs\command]
+@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na C:\\Opt\\emacs-24.3\\bin\\runemacs.exe -c   "%1\""
 
 ; Erweiterung der Dateizuständigkeit
 [HKEY_CLASSES_ROOT\*\OpenWithList\emacs.exe]
@@ -104,31 +142,3 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CLASSES_ROOT\.xslt\OpenWithProgIDs]
 "EmacsFile"=""
-
-
-; Emacs-Application Definition
-[HKEY_CLASSES_ROOT\Applications\emacs.exe]
-
-[HKEY_CLASSES_ROOT\Applications\emacs.exe\shell]
-
-[HKEY_CLASSES_ROOT\Applications\emacs.exe\shell\edit]
-
-[HKEY_CLASSES_ROOT\Applications\emacs.exe\shell\edit\command]
-@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" \"%1\""
-
-[HKEY_CLASSES_ROOT\Applications\emacs.exe\shell\open]
-
-[HKEY_CLASSES_ROOT\Applications\emacs.exe\shell\open\command]
-@="C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe -na \"C:\\Opt\\emacs-24.3\\bin\\runemacs.exe\" \"%1\""
-
-[HKEY_CLASSES_ROOT\Applications\emacs.exe\SupportedTypes]
-".c"=""
-".cs"=""
-".css"=""
-".csv"=""
-".htm"=""
-".html"=""
-".rtf"=""
-".txt"=""
-".xsl"=""
-".xml"=""
