@@ -16,24 +16,42 @@ def open_with_list (hive)
 !
 end
 
-def application (hive, emacs_root_dir)
+def shell_command_key_edit(hive_path, emacs_icon, emacs_command)
+  %!
+[#{hive_path}\\Shell]
+
+[#{hive_path}\\Shell\\Edit]
+@="Bearbeiten mit Emacs"
+"Icon"="#{emacs_icon}"
+
+[#{hive_path}\\Shell\\Edit\\Command]
+@="#{emacs_command} \\"%1\\""
+
+!
+end
+
+def shell_command_key_open(hive_path, emacs_icon, emacs_command)
+  %!
+[#{hive_path}\\Shell]
+
+[#{hive_path}\\Shell\\Open]
+@="Öffnen mit Emacs"
+"Icon"="#{emacs_icon}"
+
+[#{hive_path}\\Shell\\Open\\Command]
+@="#{emacs_command} \\"%1\\" %*"
+
+!
+end
+
+def application (hive_root, emacs_icon, emacs_command)
+  hive_path = %!#{hive_root}\\Software\\Classes\\Applications\\emacs.exe!
   %!
 ; Emacs-Application Definition
-[#{hive}\\Software\\Classes\\Applications\\emacs.exe]
+[#{hive_path}]
 
-[#{hive}\\Software\\Classes\\Applications\\emacs.exe\\Shell]
-
-[#{hive}\\Software\\Classes\\Applications\\emacs.exe\\Shell\\Edit]
-@="Bearbeiten mit Emacs"
-
-[#{hive}\\Software\\Classes\\Applications\\emacs.exe\\Shell\\Edit\\Command]
-@="\\"#{emacs_root_dir}\\\\bin\\\\emacsclientw.exe\\" -na \\"#{emacs_root_dir}\\\\bin\\\\runemacs.exe\\" -c \\"%1\\""
-
-[#{hive}\\Software\\Classes\\Applications\\emacs.exe\\Shell\\Open]
-
-[#{hive}\\Software\\Classes\\Applications\\emacs.exe\\Shell\\Open\\Command]
-@="\\"#{emacs_root_dir}\\\\bin\\\\emacsclientw.exe\\" -na \\"#{emacs_root_dir}\\\\bin\\\\runemacs.exe\\" -c \\"%1\\""
-
+#{shell_command_key_edit(hive_path, emacs_icon, emacs_command)}
+#{shell_command_key_open(hive_path, emacs_icon, emacs_command)}
 !
 end
 
@@ -55,119 +73,111 @@ def lang_file_types
 end
 
 def html_file_types
-  %w(.css .htm .html .shtml)
+  %w(.css .htm .html .shtml .xhtml)
 end
 
 def xml_file_types
-  %w(.xml .xsl .xslt)
+  %w(.svg .xml .xsl .xslt)
 end
 
 def scripting_file_types
   %w(.bas .bat .cls .cmd .frm .ps1 .py .rb .vbs)
 end
 
-def progid_emacs_text (hive, emacs_root_dir)
+def progid_emacs_text (hive_root, emacs_icon, emacs_command)
+  hive_path = %!#{hive_root}\\Software\\Classes\\Emacs.TextDocument!
   %!
 ; Emacs Text Document
-[#{hive}\\Software\\Classes\\Emacs.TextDocument]
+[#{hive_path}]
 @="Emacs Textdokument"
 "Content-Type"="text/plain"
 "FriendlyTypeName"="Emacs Textdokument"
 "InfoTip"="Bearbeite die Textdatei in einem neuen Emacs-Frame."
 
-[#{hive}\\Software\\Classes\\Emacs.TextDocument\\DefaultIcon]
-@="#{emacs_root_dir}\\\\bin\\\\emacs.exe,0"
+[#{hive_path}\\DefaultIcon]
+@="#{emacs_icon}"
 
-[#{hive}\\Software\\Classes\\Emacs.TextDocument\\Shell]
-
-[#{hive}\\Software\\Classes\\Emacs.TextDocument\\Shell\\Edit]
-@="Bearbeiten mit Emacs"
-
-[#{hive}\\Software\\Classes\\Emacs.TextDocument\\Shell\\Edit\\Command]
-@="\\"#{emacs_root_dir}\\\\bin\\\\emacsclientw.exe\\" -na \\"#{emacs_root_dir}\\\\bin\\\\runemacs.exe\\" -c \\"%1\\""
-
+#{shell_command_key_edit(hive_path, emacs_icon, emacs_command)}
+#{shell_command_key_open(hive_path, emacs_icon, emacs_command)}
 !
 end
 
-def progid_emacs_lisp_source (hive, emacs_root_dir)
+def progid_emacs_lisp_source (hive_root, emacs_icon, emacs_command, emacs_exe)
+  hive_classes = %!#{hive_root}\\Software\\Classes!
+  hive_path = %!#{hive_classes}\\Emacs.LispSource!
   %!
 ; Emacs Lisp Source Code
-[#{hive}\\Software\\Classes\\Emacs.LispSource]
+[#{hive_path}]
 @="Emacs Lisp Source"
 "Content-Type"="text/plain"
 "FriendlyTypeName"="Emacs Lisp Source"
 "InfoTip"="Bearbeite die Lisp-Quelldatei in einem neuen Emacs-Frame."
 
-[#{hive}\\Software\\Classes\\Emacs.LispSource\\DefaultIcon]
-@="#{emacs_root_dir}\\\\bin\\\\emacs.exe,0"
+[#{hive_path}\\DefaultIcon]
+@="#{emacs_icon}"
 
-[#{hive}\\Software\\Classes\\Emacs.LispSource\\Shell]
+#{shell_command_key_edit(hive_path, emacs_icon, emacs_command)}
+[#{hive_path}\\Shell\\Compile]
+@="Kompilieren mit Emacs"
+"Icon"="#{emacs_icon}"
 
-[#{hive}\\Software\\Classes\\Emacs.LispSource\\Shell\\Edit]
-@="Bearbeiten mit Emacs"
+[#{hive_path}\\Shell\\Compile\\Command]
+@="\\"#{emacs_exe}\\" -batch -f \\"batch-byte-compile\\" \\"%1\\""
 
-[#{hive}\\Software\\Classes\\Emacs.LispSource\\Shell\\Edit\\Command]
-@="\\"#{emacs_root_dir}\\\\bin\\\\emacsclientw.exe\\" -na \\"#{emacs_root_dir}\\\\bin\\\\runemacs.exe\\" -c \\"%1\\""
-
-[#{hive}\\Software\\Classes\\Emacs.LispSource\\Shell\\Compile]
-@="Kompiliere mit Emacs"
-
-[#{hive}\\Software\\Classes\\Emacs.LispSource\\Shell\\Compile\\Command]
-@="\\"#{emacs_root_dir}\\\\bin\\\\emacs.exe\\" -batch -f \\"batch-byte-compile\\" \\"%1\\""
-
-[#{hive}\\Software\\Classes\\.el]
+[#{hive_classes}\\.el]
 @="Emacs.LispSource"
 "PerceivedType"="text"
 
 !
 end
 
-def progid_emacs_lisp_bytecode (hive, emacs_root_dir)
+def progid_emacs_lisp_bytecode (hive_root, emacs_icon, emacs_exe)
+  hive_classes = %!#{hive_root}\\Software\\Classes!
+  hive_path = %!#{hive_classes}\\Emacs.LispByteCode!
   %!
 ; Emacs Lisp ByteCode
-[#{hive}\\Software\\Classes\\Emacs.LispByteCode]
+[#{hive_path}]
 @="Emacs Lisp ByteCode"
 "FriendlyTypeName"="Emacs Lisp ByteCode"
 "InfoTip"="Führe das Programm im Batchmode mit Emacs aus."
 
-[#{hive}\\Software\\Classes\\Emacs.LispByteCode\\DefaultIcon]
-@="#{emacs_root_dir}\\\\bin\\\\emacs.exe,0"
+[#{hive_path}\\DefaultIcon]
+@="#{emacs_icon}"
 
-[#{hive}\\Software\\Classes\\Emacs.LispByteCode\\Shell]
+[#{hive_path}\\Shell]
 
-[#{hive}\\Software\\Classes\\Emacs.LispByteCode\\Shell\\Run]
-@="Ausführen im Batch"
+[#{hive_path}\\Shell\\Run]
+@="Ausführen mit Emacs"
+"Icon"="#{emacs_icon}"
 
-[#{hive}\\Software\\Classes\\Emacs.LispByteCode\\Shell\\Run\\Command]
-@="\\"#{emacs_root_dir}\\\\bin\\\\emacs.exe\\" -batch -l \\"%1\\""
+[#{hive_path}\\Shell\\Run\\Command]
+@="\\"#{emacs_exe}\\" -batch -l \\"%1\\""
 
-[#{hive}\\Software\\Classes\\.elc]
+[#{hive_classes}\\.elc]
 @="Emacs.LispByteCode"
 
 !
 end
 
 # http://msdn.microsoft.com/en-us/library/windows/desktop/ee872121%28v=vs.85%29.aspx
-def software_app_path (hive, emacs_root_dir)
+def software_app_path (hive, emacs_command, emacs_path)
   %!
 ; Application Registration
 [#{hive}\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\emacs.exe]
-@="\\"#{emacs_root_dir}\\\\bin\\\\emacsclientw.exe\\" -c"
-"Path"="#{emacs_root_dir}\\\\bin"
-"HOME"=hex(2):25,00,41,00,50,00,50,00,44,00,41,00,54,00,41,00,25,00,00,00
-"ALTERNATE_EDITOR"="#{emacs_root_dir}\\\\bin\\\\runemacs.exe"
+@="#{emacs_command}"
+"Path"="#{emacs_path}"
 
 !
 end
 
-def user_environment_vars (hive, emacs_root_dir)
+def user_environment_vars (hive_root, alternate_editor)
   %!
 ; Emacs-Environment Definition
-[#{hive}\\Software\\GNU]
+[#{hive_root}\\Software\\GNU]
 
-[#{hive}\\Software\\GNU\\Emacs]
+[#{hive_root}\\Software\\GNU\\Emacs]
 "HOME"=hex(2):25,00,41,00,50,00,50,00,44,00,41,00,54,00,41,00,25,00,00,00
-"ALTERNATE_EDITOR"="#{emacs_root_dir}\\\\bin\\\\runemacs.exe"
+"ALTERNATE_EDITOR"="#{alternate_editor}"
 
 !
 end
@@ -177,21 +187,30 @@ machine_registry_hive = "HKEY_LOCAL_MACHINE"
 user_registry_hive = "HKEY_CURRENT_USER"
 registry_hive = user_registry_hive
 
-reg_file_name = "emacs-setup.reg"
+emacs_bin = %!#{emacs_folder}\\\\bin!
+emacs_exe = %!#{emacs_bin}\\\\emacs.exe!
+emacs_win_exe = %!#{emacs_bin}\\\\runemacs.exe!
+emacs_win_client = %!#{emacs_bin}\\\\emacsclientw.exe!
+emacs_icon = %!#{emacs_exe},0!
+
+# Command entry depends on --with-server or --standalone
+emacs_command = %!\\"#{emacs_win_client}\\" -c!
+
+reg_file_name = "emacs-setup-new.reg"
 
 reg_file = File.open(reg_file_name, "w")
 
 reg_file.puts registry_prolog
 reg_file.puts open_with_list(registry_hive)
-reg_file.puts application(registry_hive, emacs_folder)
+reg_file.puts application(registry_hive, emacs_icon, emacs_command)
 all_file_types = text_file_types + lang_file_types + html_file_types + scripting_file_types + xml_file_types
 reg_file.puts application_types(registry_hive, all_file_types)
 
-reg_file.puts progid_emacs_text(registry_hive, emacs_folder)
-reg_file.puts progid_emacs_lisp_source(registry_hive, emacs_folder)
-reg_file.puts progid_emacs_lisp_bytecode(registry_hive, emacs_folder)
+reg_file.puts progid_emacs_text(registry_hive, emacs_icon, emacs_command)
+reg_file.puts progid_emacs_lisp_source(registry_hive, emacs_icon, emacs_command, emacs_exe)
+reg_file.puts progid_emacs_lisp_bytecode(registry_hive, emacs_icon, emacs_exe)
 
-reg_file.puts software_app_path(registry_hive, emacs_folder)
-reg_file.puts user_environment_vars(user_registry_hive, emacs_folder)
+reg_file.puts software_app_path(registry_hive, emacs_command, emacs_bin)
+reg_file.puts user_environment_vars(user_registry_hive, emacs_win_exe)
 
 reg_file.close
