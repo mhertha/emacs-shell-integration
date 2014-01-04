@@ -1,0 +1,247 @@
+Windows Registry Editor Version 5.00
+; Application Registration
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths\emacs.exe]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -c"
+"Path"="C:\\Opt\\emacs-24.3\\bin"
+
+; Emacs-Environment Definition
+[HKEY_CURRENT_USER\Software\GNU]
+
+[HKEY_CURRENT_USER\Software\GNU\Emacs]
+"HOME"=hex(2):25,00,41,00,50,00,50,00,44,00,41,00,54,00,41,00,25,00,00,00
+"ALTERNATE_EDITOR"="C:\\Opt\\emacs-24.3\\bin\\runemacs.exe"
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe]
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe\Open]
+@="Öffnen mit Emacs"
+"Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe\Open\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -c \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe\Edit]
+@="Bearbeiten mit Emacs"
+"Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe\Edit\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -c \"%1\" %*"
+
+[HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe\SupportedTypes]
+".bas"=""
+".bat"=""
+".c"=""
+".cc"=""
+".cls"=""
+".cmd"=""
+".cpp"=""
+".cs"=""
+".css"=""
+".csv"=""
+".cxx"=""
+".frm"=""
+".h"=""
+".htm"=""
+".html"=""
+".ini"=""
+".ps1"=""
+".py"=""
+".rb"=""
+".reg"=""
+".rtf"=""
+".shtml"=""
+".svg"=""
+".txt"=""
+".vbs"=""
+".xhtml"=""
+".xml"=""
+".xsl"=""
+".xslt"=""
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextFile]
+@="Emacs Textdokument"
+"FriendlyTypeName"="Emacs Textdokument"
+"InfoTip"="Bearbeite die Textdatei in einem neuen Emacs-Frame."
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextFile\DefaultIcon]
+@="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextFile\Shell]
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextFile\Shell\Edit]
+@="Bearbeiten mit Emacs"
+"Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextFile\Shell\Edit\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -c \"%1\" %*"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextFile\Shell\Open]
+@="Öffnen mit Emacs"
+"Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.TextFile\Shell\Open\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -c \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource]
+@="Emacs Lisp Quelltext"
+"FriendlyTypeName"="Emacs Lisp Quelltext"
+"InfoTip"="Bearbeite die Lisp-Quelldatei in einem neuen Emacs-Frame."
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\DefaultIcon]
+@="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\Shell]
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\Shell\Edit]
+@="Bearbeiten mit Emacs"
+"Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\Shell\Edit\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -c \"%1\" %*"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\Shell\Compile]
+@="Kompilieren mit Emacs"
+"Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispSource\Shell\Compile\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacs.exe\" -batch -f \"batch-byte-compile\" \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode]
+@="Emacs Lisp ByteCode"
+"FriendlyTypeName"="Emacs Lisp ByteCode"
+"InfoTip"="Führe das Programm im Batchmode mit Emacs aus."
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode\DefaultIcon]
+@="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode\Shell]
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode\Shell\Run]
+@="Ausführen mit Emacs"
+"Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode\Shell\Run\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacs.exe\" -batch -l \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\.el]
+@="Emacs.LispSource"
+"Content Type"="text/plain"
+
+[HKEY_CURRENT_USER\Software\Classes\.elc]
+@="Emacs.LispByteCode"
+
+[HKEY_CURRENT_USER\Software\Classes\.bas\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.bat\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.c\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.cc\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.cls\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.cmd\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.cpp\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.cs\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.css\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.csv\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.cxx\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.frm\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.h\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.htm\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.html\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.ini\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.ps1\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.py\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.rb\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.reg\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.rtf\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.shtml\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.svg\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.txt\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.vbs\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.xhtml\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.xml\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.xsl\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\.xslt\OpenWithProgids]
+"Emacs.TextFile"=""
+
+[HKEY_CURRENT_USER\Software\Classes\Directory]
+
+[HKEY_CURRENT_USER\Software\Classes\Directory\Shell]
+
+[HKEY_CURRENT_USER\Software\Classes\Directory\Shell\Edit]
+@="Bearbeiten mit Emacs"
+"Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Directory\Shell\Edit\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -c \"%1\" %*"
+
+[HKEY_CURRENT_USER\Software\Classes\Folder]
+
+[HKEY_CURRENT_USER\Software\Classes\Folder\Shell]
+
+[HKEY_CURRENT_USER\Software\Classes\Folder\Shell\Edit]
+@="Bearbeiten mit Emacs"
+"Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Folder\Shell\Edit\Command]
+@="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -c \"%1\" %*"
+
+; Emacs Shell Addition
+[HKEY_CURRENT_USER\Software\Classes\*\OpenWithList\emacs.exe]
+
+; Emacs Handler for Perceived Types
+[HKEY_CURRENT_USER\Software\Classes\SystemFileAssociations\text\OpenWithList\emacs.exe]
+
