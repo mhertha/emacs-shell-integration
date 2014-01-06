@@ -80,22 +80,17 @@ end
 class SoftwareClassesApplicationsKey < SoftwareClassesKey
 
   def initialize(registry_hive, application_name)
-    super(registry_hive, "Applications")
-    @application_name = application_name
+    super(registry_hive, "Applications\\#{application_name}")
   end
 
-  def key_path
-    %!#{@hive_path}\\#{@application_name}!
+  def print_create_key
+    %![#{key_path}]\n\n!
   end
 
   def print_registry_create
     t = print_create_key
     t += print_shell_verbs_create
     t
-  end
-
-  def print_create_key
-    %![#{key_path}]\n\n!
   end
   def print_registry_delete
     %![-#{key_path}]\n\n!
@@ -446,7 +441,7 @@ def write_registry_files(registry_hive, emacs_app)
   generic_handler = SoftwareClassesKey.new(registry_hive, "*")
   create_file.puts %!; Emacs Shell Addition!
   create_file.puts generic_handler.print_create_subkey(open_with_emacs)
-  cleanup_file.puts %!; Remvoe Emacs Shell Addition!
+  cleanup_file.puts %!; Remove Emacs Shell Addition!
   cleanup_file.puts generic_handler.print_remove_subkey(open_with_emacs)
 
   perceived_text_handler = SoftwareClassesKey.new(
