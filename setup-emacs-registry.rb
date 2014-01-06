@@ -2,7 +2,7 @@
 # -*- coding: iso-8859-1 -*-
 
 def registry_prolog
-  "Windows Registry Editor Version 5.00\n"
+  %!Windows Registry Editor Version 5.00\n\n!
 end
 
 class ShellVerb
@@ -26,7 +26,7 @@ class ShellVerb
     v += %!\n!
     v
   end
-  def print_registry_value(reg_path)
+  def print_registry_create(reg_path)
     s = verb_description(reg_path)
     s += verb_command(reg_path)
     s
@@ -37,33 +37,41 @@ class ShellVerb
 end
 
 class SoftwareClassesKey
-  REG_KEYPATH = %!Software\\Classes!
+  SOFTWARE_CLASSES_KEY = %!Software\\Classes!
   
-  def initialize(registry_hive)
-    @hive_path = %!#{registry_hive}\\#{REG_KEYPATH}!
+  def initialize(registry_hive, classes_subkey)
+    @hive_path = %!#{registry_hive}\\#{SOFTWARE_CLASSES_KEY}!
+    @hive_path += %!\\#{classes_subkey}! if classes_subkey
     @verbs = Array.new
   end
 
   def key_path
     %!#{@hive_path}!
   end
-  def print_registry_key(sub_key, option_char)
+  def print_registry_subkey(sub_key, option_char)
     %![#{option_char}#{key_path}\\#{sub_key}]\n\n!
   end
-  def print_add_key(sub_key)
-    print_registry_key(sub_key, "")
+  def print_create_subkey(sub_key)
+    print_registry_subkey(sub_key, "")
   end
-  def print_remove_key(sub_key)
-    print_registry_key(sub_key, "-")
+  def print_remove_subkey(sub_key)
+    print_registry_subkey(sub_key, "-")
   end
 
   def add_verb(new_verb)
     @verbs.push(new_verb)
   end
-  def print_shell_verbs
+  def print_shell_verbs_create
     t = ""
     @verbs.each{ |v|
-      t += v.print_registry_value(key_path)
+      t += v.print_registry_create(key_path)
+    }
+    t
+  end
+  def print_shell_verbs_remove
+    t = ""
+    @verbs.each{ |v|
+      t += v.print_registry_remove(key_path)
     }
     t
   end
@@ -72,21 +80,21 @@ end
 class SoftwareClassesApplicationsKey < SoftwareClassesKey
 
   def initialize(registry_hive, application_name)
-    super(registry_hive)
+    super(registry_hive, "Applications")
     @application_name = application_name
   end
 
   def key_path
-    %!#{@hive_path}\\Applications\\#{@application_name}!
+    %!#{@hive_path}\\#{@application_name}!
   end
 
   def print_registry_create
-    t = print_add_key
-    t += print_shell_verbs
+    t = print_create_key
+    t += print_shell_verbs_create
     t
   end
 
-  def print_add_key
+  def print_create_key
     %![#{key_path}]\n\n!
   end
   def print_registry_delete
@@ -109,20 +117,17 @@ class SoftwareClassesExtensionKey < SoftwareClassesKey
   attr_accessor :perceived_type, :content_type
 
   def initialize(registry_hive, file_extension, progid_name)
-    super(registry_hive)
-    @file_extension = file_extension
+    super(registry_hive, file_extension)
     @progid_name = progid_name
     @content_type = nil
     @perceived_type = nil
   end
-  def key_path
-    %!#{@hive_path}\\#{@file_extension}!
-  end
+
   def print_registry_create
     t = %![#{key_path}]\n!
     t += %!@="#{@progid_name}"\n! if @progid_name
     t += %!"Content Type"="#{content_type}"\n! if @content_type
-    t += %!"PerceivedType"="#{@perceived_type}"\n! if @perceived_type
+    t += %!"PerceivedType"="#{perceived_type}"\n! if @perceived_type
     t += %!\n!
     t
   end
@@ -131,17 +136,17 @@ class SoftwareClassesExtensionKey < SoftwareClassesKey
   end
 
   # Add or remove a foreign progid to this file extension
-  def print_open_with_progid(progid_addition, option_char)
-    %![#{key_path}\\OpenWithProgids]
+  def print_progid_option(progid_addition, option_char)
+    %![#{key_path}\\OpenWithProgIds]
 "#{progid_addition}"=#{option_char}
 
 !
   end
   def print_add_progid(progid_name)
-    print_open_with_progid(progid_name, "\"\"")
+    print_progid_option(progid_name, "\"\"")
   end
   def print_remove_progid(progid_name)
-    print_open_with_progid(progid_name, "-")
+    print_progid_option(progid_name, "-")
   end
 end
 
@@ -151,16 +156,13 @@ class SoftwareClassesProgIdKey < SoftwareClassesKey
   attr_reader :progid_name
 
   def initialize(registry_hive, progid_name, friendly_type_name)
-    super(registry_hive)
+    super(registry_hive, progid_name)
     @progid_name = progid_name
     @friendly_type_name = friendly_type_name
     @default_icon = nil
     @info_tip = nil
   end
 
-  def key_path
-    %!#{@hive_path}\\#{@progid_name}!
-  end
   def progid_registry_create
     t = %![#{key_path}]\n!
     if (@friendly_type_name)
@@ -183,7 +185,7 @@ class SoftwareClassesProgIdKey < SoftwareClassesKey
     if (@verbs)
       t = %![#{shell_path}]\n\n!
       @verbs.each { |v|
-        t += v.print_registry_value(shell_path)
+        t += v.print_registry_create(shell_path)
       }
     end
     t
@@ -432,22 +434,32 @@ def write_registry_files(registry_hive, emacs_app)
   # Add support for emacs dired mode
   ["Directory", "Folder"].each { |t|
     progid_emacs_folder = SoftwareClassesProgIdKey.new(
-                          registry_hive,
-                          t,
-                          nil)
+                            registry_hive,
+                            t,
+                            nil)
     progid_emacs_folder.add_verb(edit_verb)
     create_file.puts progid_emacs_folder.print_registry_create
     cleanup_file.puts progid_emacs_folder.print_remove_verbs
   }
 
   open_with_emacs = %!OpenWithList\\emacs.exe!
-  generic_handler = SoftwareClassesKey.new(registry_hive)
+  generic_handler = SoftwareClassesKey.new(registry_hive, "*")
   create_file.puts %!; Emacs Shell Addition!
-  create_file.puts generic_handler.print_add_key(%!*\\#{open_with_emacs}!)
-  cleanup_file.puts generic_handler.print_remove_key(%!*\\#{open_with_emacs}!)
+  create_file.puts generic_handler.print_create_subkey(open_with_emacs)
+  cleanup_file.puts %!; Remvoe Emacs Shell Addition!
+  cleanup_file.puts generic_handler.print_remove_subkey(open_with_emacs)
+
+  perceived_text_handler = SoftwareClassesKey.new(
+                              registry_hive,
+                              "SystemFileAssociations\\text")
+  perceived_text_handler.add_verb(edit_verb)
+  perceived_text_handler.add_verb(open_verb)
   create_file.puts %!; Emacs Handler for Perceived Types!
-  create_file.puts generic_handler.print_add_key(%!SystemFileAssociations\\text\\#{open_with_emacs}!)
-  cleanup_file.puts generic_handler.print_remove_key(%!SystemFileAssociations\\text\\#{open_with_emacs}!)
+  create_file.puts perceived_text_handler.print_create_subkey(open_with_emacs)
+  create_file.puts perceived_text_handler.print_shell_verbs_create
+  cleanup_file.puts %!; Remove Emacs Handler for Perceived Types!
+  cleanup_file.puts perceived_text_handler.print_remove_subkey(open_with_emacs)
+  cleanup_file.puts perceived_text_handler.print_shell_verbs_remove
 
   create_file.close
   cleanup_file.close
