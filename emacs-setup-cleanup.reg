@@ -1,4 +1,5 @@
 Windows Registry Editor Version 5.00
+
 ; Remove Application Registration
 [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths\emacs.exe]
 
@@ -17,98 +18,104 @@ Windows Registry Editor Version 5.00
 
 [-HKEY_CURRENT_USER\Software\Classes\.elc]
 
-[HKEY_CURRENT_USER\Software\Classes\.bas\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.bas\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.bat\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.bat\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.c\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.c\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.cc\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.cc\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.cls\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.cls\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.cmd\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.cmd\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.cpp\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.cpp\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.cs\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.cs\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.css\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.css\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.csv\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.csv\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.cxx\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.cxx\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.frm\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.frm\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.h\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.h\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.htm\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.htm\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.html\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.html\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.ini\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.ini\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.ps1\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.ps1\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.py\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.py\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.rb\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.rb\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.reg\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.reg\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.rtf\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.rtf\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.shtml\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.shtml\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.svg\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.svg\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.txt\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.txt\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.vbs\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.vbs\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.xhtml\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.xhtml\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.xml\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.xml\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.xsl\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.xsl\OpenWithProgIds]
 "Emacs.TextFile"=-
 
-[HKEY_CURRENT_USER\Software\Classes\.xslt\OpenWithProgids]
+[HKEY_CURRENT_USER\Software\Classes\.xslt\OpenWithProgIds]
 "Emacs.TextFile"=-
 
 [-HKEY_CURRENT_USER\Software\Classes\Directory\Shell\Edit]
 
 [-HKEY_CURRENT_USER\Software\Classes\Folder\Shell\Edit]
 
+; Remvoe Emacs Shell Addition
 [-HKEY_CURRENT_USER\Software\Classes\*\OpenWithList\emacs.exe]
 
+; Remove Emacs Handler for Perceived Types
 [-HKEY_CURRENT_USER\Software\Classes\SystemFileAssociations\text\OpenWithList\emacs.exe]
+
+[-HKEY_CURRENT_USER\Software\Classes\SystemFileAssociations\text\Edit]
+
+[-HKEY_CURRENT_USER\Software\Classes\SystemFileAssociations\text\Open]
 
