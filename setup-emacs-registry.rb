@@ -260,7 +260,7 @@ def reg_sz_or_expand_value(reg_value)
     elts = []
     # Each char is null terminated by default
     reg_value.each_byte { |b| elts << b.to_s(16) << "00" }
-    # REG_SZ_EXPAND is a null terminated string
+    # REG_EXPAND_SZ is a null terminated string
     elts << "00" << "00"
     return_value = "hex(2):#{elts.join(',')}"
   end
