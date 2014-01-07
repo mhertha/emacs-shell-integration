@@ -1,6 +1,8 @@
 #! ruby -w
 # -*- coding: iso-8859-1 -*-
 
+require 'optparse'
+
 def registry_prolog
   %!Windows Registry Editor Version 5.00\n\n!
 end
@@ -427,6 +429,8 @@ def write_registry_files(registry_hive, emacs_app)
   }
 
   # Add support for emacs dired mode
+  # http://msdn.microsoft.com/en-us/library/windows/desktop/cc144067%28v=vs.85%29.aspx
+  # Directory are File folders, Folder are All folders
   ["Directory", "Folder"].each { |t|
     progid_emacs_folder = SoftwareClassesProgIdKey.new(
                             registry_hive,
@@ -460,13 +464,69 @@ def write_registry_files(registry_hive, emacs_app)
   cleanup_file.close
 end
 
-emacs_folder = "C:\\\\Opt\\\\emacs-24.3"
-machine_registry_hive = "HKEY_LOCAL_MACHINE"
-user_registry_hive = "HKEY_CURRENT_USER"
-registry_hive = user_registry_hive
+local_machine_registry = "HKEY_LOCAL_MACHINE"
+current_user_registry = "HKEY_CURRENT_USER"
+default_setup_file = 'emacs-setup-create.reg'
+default_cleanup_file = 'emacs-setup-cleanup.reg'
+
+options = {
+  :emacs_directory => 'C:\\\\Opt\\\\emacs-24.3',
+  :registry_hive => current_user_registry,
+  :server_mode => true,
+  :new_frame => true,
+  :setup_file => default_setup_file,
+  :cleanup_file => default_cleanup_file,
+}
+
+opt_parser = OptionParser.new do |opts|
+  opts.on('-h', '--help', 'Display this help') do
+    puts opts
+    exit
+  end
+  opts.on('-d',
+          '--emacs-directory DIRECTORY',
+          'Root Directory for emacs.exe') do |dir|
+    # todo: escape path separator!
+    options[:emacs_directory] = dir
+  end
+  opts.on('--registry-hklm',
+          "Create the keys under #{local_machine_registry}") do
+    options[:registry_hive] = local_machine_registry
+  end
+  opts.on('-S',
+          '--standalone',
+          'Define runemacs.exe as default editor otherwise emacsclientw.exe is used.') do
+    options[:server_mode] = false
+  end
+  opts.on('-F',
+          '--single-frame',
+          'Open each file in the running emacs-frame.') do
+    options[:new_frame] = false
+  end
+  opts.on('--setup-file SETUPFILE',
+          "Write registry keys for install settings to SETUPFILE (Default: #{default_setup_file})") do |f|
+    options[:setup_file] = f
+  end
+  opts.on('--cleanup-file CLEANUPFILE',
+          "Write registry keys for remove settings to CLEANUPFILE (Default: #{default_cleanup_file})") do |fl|
+    options[:cleanup_file] = fl
+  end
+end
+
+opt_parser.parse!
 
 # Default GNU emacs application found at
-# http://ftp.gnu.org/
-emacs_app = EmacsApplication.new(emacs_folder)
+# http://ftp.gnu.org/gnu/emacs/windows/
+emacs_app = EmacsApplication.new(options[:emacs_directory])
 
-write_registry_files(registry_hive, emacs_app)
+if (! File::exists?(emacs_app.win_exe))
+
+  puts "Emacs binary '#{emacs_app.win_exe}' not found!"
+  puts 'Abort!'
+  exit 1
+
+end
+
+puts options
+
+#write_registry_files(registry_hive, emacs_app)
