@@ -5,7 +5,6 @@ Windows Registry Editor Version 5.00
 @="\"C:\\Opt\\emacs-24.3\\bin\\emacsclientw.exe\" -c"
 "Path"="C:\\Opt\\emacs-24.3\\bin"
 
-; Emacs-Environment Definition
 [HKEY_CURRENT_USER\Software\GNU]
 
 [HKEY_CURRENT_USER\Software\GNU\Emacs]

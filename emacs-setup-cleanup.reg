@@ -3,7 +3,6 @@ Windows Registry Editor Version 5.00
 ; Remove Application Registration
 [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths\emacs.exe]
 
-; Remove Environment Registration
 [-HKEY_CURRENT_USER\Software\GNU\Emacs]
 
 [-HKEY_CURRENT_USER\Software\Classes\Applications\emacs.exe]
@@ -109,7 +108,7 @@ Windows Registry Editor Version 5.00
 
 [-HKEY_CURRENT_USER\Software\Classes\Folder\Shell\Edit]
 
-; Remvoe Emacs Shell Addition
+; Remove Emacs Shell Addition
 [-HKEY_CURRENT_USER\Software\Classes\*\OpenWithList\emacs.exe]
 
 ; Remove Emacs Handler for Perceived Types
