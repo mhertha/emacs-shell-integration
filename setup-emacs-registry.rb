@@ -252,27 +252,41 @@ class ApplicationKey
   end
 end
 
-class EnvironmentKey
-  REG_KEYPATH = %!Software\\GNU!
+def reg_sz_or_expand_value(reg_value)
+  # REG_SZ string has to be quoted in the registry file
+  return_value = "\"#{reg_value}\""
+  # if there is any environment variable, the whole value has to be encoded
+  if (reg_value =~ /%[A-Za-z_]+%/)
+    elts = []
+    # Each char is null terminated by default
+    reg_value.each_byte { |b| elts << b.to_s(16) << "00" }
+    # REG_SZ_EXPAND is a null terminated string
+    elts << "00" << "00"
+    return_value = "hex(2):#{elts.join(',')}"
+  end
+  return_value
+end
+
+class SoftwareEnvironmentKey
+
   def initialize(registry_hive)
-    @hive_path = %!#{registry_hive}\\#{REG_KEYPATH}!
+    @hive_path = %!#{registry_hive}\\Software\\GNU!
   end
 
-  def print_registry_create(alternate_editor)
-    %!; Emacs-Environment Definition
-[#{@hive_path}]
+  def print_registry_create(home_dir, alternate_editor)
+    home_reg_var = reg_sz_or_expand_value(home_dir)
+    editor_reg_var = reg_sz_or_expand_value(alternate_editor)
+
+    %![#{@hive_path}]
 
 [#{@hive_path}\\Emacs]
-"HOME"=hex(2):25,00,41,00,50,00,50,00,44,00,41,00,54,00,41,00,25,00,00,00
-"ALTERNATE_EDITOR"="#{alternate_editor}"
+"HOME"=#{home_reg_var}
+"ALTERNATE_EDITOR"=#{editor_reg_var}
 
 !
   end
   def print_registry_delete
-    %!; Remove Environment Registration
-[-#{@hive_path}\\Emacs]
-
-!
+    %![-#{@hive_path}\\Emacs]\n\n!
   end
 end
 
@@ -312,25 +326,25 @@ class EmacsApplication
   end
 end
 
-def write_registry_files(registry_hive, emacs_app)
+def write_registry_files(work_opts, emacs_app)
 
-  file_name_create = "emacs-setup-create.reg"
-  file_name_cleanup = "emacs-setup-cleanup.reg"
+  registry_hive = work_opts[:registry_hive]
 
-  create_file = File.open(file_name_create, "w")
-  cleanup_file = File.open(file_name_cleanup, "w")
+  create_file = File.open(work_opts[:setup_file], "w")
+  cleanup_file = File.open(work_opts[:cleanup_file], "w")
 
   create_file.puts registry_prolog
   cleanup_file.puts registry_prolog
 
   # Shell verbs used for multiple key definitions
-  emacs_edit_command = %!#{emacs_app.command(true,true)} \\"%1\\" %*!
+  emacs_app_command = emacs_app.command(work_opts[:server_mode], work_opts[:new_frame])
+  emacs_edit_command = %!#{emacs_app_command} \\"%1\\" %*!
   edit_verb = ShellVerb.new(
                 "Edit",
                 "Bearbeiten mit Emacs",
                 emacs_edit_command,
                 emacs_app.icon)
-  emacs_open_command = %!#{emacs_app.command(true,true)} \\"%1\\"!
+  emacs_open_command = %!#{emacs_app_command} \\"%1\\"!
   open_verb = ShellVerb.new(
                 "Open",
                 "Öffnen mit Emacs",
@@ -353,13 +367,13 @@ def write_registry_files(registry_hive, emacs_app)
   # will be used for OpenWithList definition
   application = ApplicationKey.new(registry_hive)
   create_file.puts application.print_registry_create(
-                     emacs_app.command(true, true),
+                     emacs_app_command,
                      emacs_app.bin_path)
   cleanup_file.puts application.print_registry_delete
 
   # The environment settings for each emacs instance
-  environment = EnvironmentKey.new(registry_hive)
-  create_file.puts environment.print_registry_create(emacs_app.win_exe)
+  environment = SoftwareEnvironmentKey.new(registry_hive)
+  create_file.puts environment.print_registry_create(work_opts[:home_dir], work_opts[:alternate_editor])
   cleanup_file.puts environment.print_registry_delete
 
   # Definition for file types used with emacs
@@ -468,6 +482,8 @@ local_machine_registry = "HKEY_LOCAL_MACHINE"
 current_user_registry = "HKEY_CURRENT_USER"
 default_setup_file = 'emacs-setup-create.reg'
 default_cleanup_file = 'emacs-setup-cleanup.reg'
+default_home_dir = '%APPDATA%'
+default_editor = 'runemacs.exe'
 
 options = {
   :emacs_directory => 'C:\\\\Opt\\\\emacs-24.3',
@@ -476,6 +492,8 @@ options = {
   :new_frame => true,
   :setup_file => default_setup_file,
   :cleanup_file => default_cleanup_file,
+  :home_dir => default_home_dir,
+  :alternate_editor => default_editor,
 }
 
 opt_parser = OptionParser.new do |opts|
@@ -490,7 +508,7 @@ opt_parser = OptionParser.new do |opts|
     options[:emacs_directory] = dir
   end
   opts.on('--registry-hklm',
-          "Create the keys under #{local_machine_registry}") do
+          "Create the keys under #{local_machine_registry} (Default: #{current_user_registry})") do
     options[:registry_hive] = local_machine_registry
   end
   opts.on('-S',
@@ -500,7 +518,7 @@ opt_parser = OptionParser.new do |opts|
   end
   opts.on('-F',
           '--single-frame',
-          'Open each file in the running emacs-frame.') do
+          'Open each file in the running emacs-frame (if emacs has server-mode active).') do
     options[:new_frame] = false
   end
   opts.on('--setup-file SETUPFILE',
@@ -508,8 +526,17 @@ opt_parser = OptionParser.new do |opts|
     options[:setup_file] = f
   end
   opts.on('--cleanup-file CLEANUPFILE',
-          "Write registry keys for remove settings to CLEANUPFILE (Default: #{default_cleanup_file})") do |fl|
-    options[:cleanup_file] = fl
+          "Write registry keys for remove settings to CLEANUPFILE (Default: #{default_cleanup_file})") do |f|
+    options[:cleanup_file] = f
+  end
+  opts.on('--home-dir HOMEVAR',
+          "Use HOMEVAR as environment variable for emacs (Default: #{default_home_dir})") do |h|
+    options[:home_dir] = h
+  end
+  opts.on('-E',
+          '--alternate-editor EDITOR',
+          "Use EDITOR as alternate editor for emacs in server-mode (Default: #{default_editor})") do |e|
+    options[:alternate_editor] = e
   end
 end
 
@@ -527,6 +554,10 @@ if (! File::exists?(emacs_app.win_exe))
 
 end
 
-puts options
+# The default setting is a placeholder. At this position
+# the full path is available.
+if (options[:alternate_editor].eql?(default_editor))
+  options[:alternate_editor] = emacs_app.win_exe
+end
 
-#write_registry_files(registry_hive, emacs_app)
+write_registry_files(options, emacs_app)
