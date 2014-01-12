@@ -348,6 +348,7 @@ end
 def write_registry_files(work_opts, emacs_app)
 
   registry_hive = work_opts[:registry_hive]
+  localized_text = work_opts[:localization]
 
   create_file = File.open(work_opts[:setup_file], "w")
   cleanup_file = File.open(work_opts[:cleanup_file], "w")
@@ -360,25 +361,25 @@ def write_registry_files(work_opts, emacs_app)
   emacs_edit_command = %!#{emacs_app_command} \\"%1\\" %*!
   edit_verb = ShellVerb.new(
                 "Edit",
-                "Bearbeiten mit Emacs",
+                localized_text[:editVerbText],
                 emacs_edit_command,
                 emacs_app.icon)
   emacs_open_command = %!#{emacs_app_command} \\"%1\\"!
   open_verb = ShellVerb.new(
                 "Open",
-                "Öffnen mit Emacs",
+                localized_text[:openVerbText],
                 emacs_open_command,
                 emacs_app.icon)
   emacs_compile_command = %!\\"#{emacs_app.console_exe}\\" -batch -f \\"batch-byte-compile\\" \\"%1\\"!
   compile_verb = ShellVerb.new(
                 "Compile",
-                "Kompilieren mit Emacs",
+                localized_text[:compileVerbText],
                 emacs_compile_command,
                 emacs_app.icon)
   emacs_run_command = %!\\"#{emacs_app.console_exe}\\" -batch -l \\"%1\\"!
   run_verb = ShellVerb.new(
                 "Run",
-                "Ausführen mit Emacs",
+                localized_text[:runVerbText],
                 emacs_run_command,
                 emacs_app.icon)
 
@@ -392,7 +393,9 @@ def write_registry_files(work_opts, emacs_app)
 
   # The environment settings for each emacs instance
   environment = SoftwareEnvironmentKey.new(registry_hive)
-  create_file.puts environment.print_registry_create(work_opts[:home_dir], work_opts[:alternate_editor])
+  create_file.puts environment.print_registry_create(
+                                         work_opts[:home_dir],
+                                         work_opts[:alternate_editor])
   cleanup_file.puts environment.print_registry_delete
 
   # Definition for file types used with emacs
@@ -410,9 +413,9 @@ def write_registry_files(work_opts, emacs_app)
   progid_emacs_text = SoftwareClassesProgIdKey.new(
                           registry_hive,
                           "Emacs.TextFile",
-                          "Emacs Textdokument")
+                          localized_text[:friendlyNameText])
   progid_emacs_text.default_icon = emacs_app.icon
-  progid_emacs_text.info_tip = "Bearbeite die Textdatei in einem neuen Emacs-Frame."
+  progid_emacs_text.info_tip = localized_text[:infoTipText]
   progid_emacs_text.add_verb(edit_verb)
   progid_emacs_text.add_verb(open_verb)
   create_file.puts progid_emacs_text.print_registry_create
@@ -421,9 +424,10 @@ def write_registry_files(work_opts, emacs_app)
   progid_emacs_lisp = SoftwareClassesProgIdKey.new(
                           registry_hive,
                           "Emacs.LispSource",
-                          "Emacs Lisp Quelltext")
+                          localized_text[:friendlyNameLisp])
   progid_emacs_lisp.default_icon = emacs_app.icon
-  progid_emacs_lisp.info_tip = "Bearbeite die Lisp-Quelldatei in einem neuen Emacs-Frame."
+  progid_emacs_lisp.info_tip = localized_text[:infoTipLisp]
+
   progid_emacs_lisp.add_verb(edit_verb)
   progid_emacs_lisp.add_verb(compile_verb)
   create_file.puts progid_emacs_lisp.print_registry_create
@@ -432,9 +436,9 @@ def write_registry_files(work_opts, emacs_app)
   progid_emacs_byte = SoftwareClassesProgIdKey.new(
                           registry_hive,
                           "Emacs.LispByteCode",
-                          "Emacs Lisp ByteCode")
+                          localized_text[:friendlyNameByte])
   progid_emacs_byte.default_icon = emacs_app.icon
-  progid_emacs_byte.info_tip = "Führe das Programm im Batchmode mit Emacs aus."
+  progid_emacs_byte.info_tip = localized_text[:infoTipByte]
   progid_emacs_byte.add_verb(run_verb)
   create_file.puts progid_emacs_byte.print_registry_create
   cleanup_file.puts progid_emacs_byte.print_registry_delete
@@ -497,12 +501,41 @@ def write_registry_files(work_opts, emacs_app)
   cleanup_file.close
 end
 
+def load_localization(lang_key)
+
+  default_text = {
+    :editVerbText => 'Edit With Emacs',
+    :openVerbText => 'Open With Emacs',
+    :compileVerbText => 'Compile With Emacs',
+    :runVerbText => 'Run As Emacs Batch',
+    :friendlyNameText => 'Emacs Text Document',
+    :infoTipText => 'Edit text in new emacs frame.',
+    :friendlyNameLisp => 'Emacs Lisp Source',
+    :infoTipLisp => 'Edit Lisp source in emacs frame.',
+    :friendlyNameByte => 'Emacs Lisp ByteCode',
+    :infoTipByte => 'Run in Emacs Batch Mode.'
+  }
+  
+  language_yaml = 'setup-emacs-language.yaml'
+  if (File::exist?(language_yaml))
+    require 'yaml'
+    YAML::ENGINE.yamler = 'syck'
+    languages = YAML::load(File.open(language_yaml))
+    if (languages.has_key?(lang_key))
+      default_text = languages[lang_key]
+    end
+  end
+
+  default_text
+end
+
 local_machine_registry = "HKEY_LOCAL_MACHINE"
 current_user_registry = "HKEY_CURRENT_USER"
 default_setup_file = 'emacs-setup-create.reg'
 default_cleanup_file = 'emacs-setup-cleanup.reg'
 default_home_dir = '%APPDATA%'
 default_editor = 'runemacs.exe'
+default_language = 'en'
 
 options = {
   :emacs_directory => 'C:\\\\Opt\\\\emacs-24.3',
@@ -513,13 +546,14 @@ options = {
   :cleanup_file => default_cleanup_file,
   :home_dir => default_home_dir,
   :alternate_editor => default_editor,
+  :localization => load_localization(default_language)
 }
 
 opt_parser = OptionParser.new do |opts|
   opts.on('-h', '--help', 'Display this help') do
     puts <<-EOL
 setup-emacs-registry.rb
-Copyright (C) 2014 Maik Hertha (mhertha@gmail.com)
+Copyright (C) 2014 Maik Hertha
     
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
@@ -565,6 +599,11 @@ EOL
           '--alternate-editor EDITOR',
           "Use EDITOR as alternate editor for emacs in server-mode (Default: #{default_editor})") do |e|
     options[:alternate_editor] = e
+  end
+  opts.on('-L',
+          '--language LANG',
+          "Use LANG for display text in registry items (Default: #{default_language})") do |l|
+    options[:localization] = load_localization(l)
   end
 end
 

@@ -117,7 +117,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode\Shell]
 
 [HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode\Shell\Run]
-@="Ausführen mit Emacs"
+@="Ausführen im Emacs Batch"
 "Icon"="C:\\Opt\\emacs-24.3\\bin\\emacs.exe,0"
 
 [HKEY_CURRENT_USER\Software\Classes\Emacs.LispByteCode\Shell\Run\Command]

@@ -1,0 +1,24 @@
+# Encoding: ISO-8859-1
+# Define display items for use in context menu
+en:
+  :editVerbText: Edit With Emacs
+  :openVerbText: Open With Emacs
+  :compileVerbText: Compile With Emacs
+  :runVerbText: Run As Emacs Batch
+  :friendlyNameText: Emacs Text Document
+  :infoTipText: Edit text in new emacs frame.
+  :friendlyNameLisp: Emacs Lisp Source
+  :infoTipLisp: Edit Lisp source in emacs frame.
+  :friendlyNameByte: Emacs Lisp ByteCode
+  :infoTipByte: Run in Emacs Batch Mode.
+de:
+  :editVerbText: Bearbeiten mit Emacs
+  :openVerbText: Öffnen mit Emacs
+  :compileVerbText: Kompilieren mit Emacs
+  :runVerbText: Ausführen im Emacs Batch
+  :friendlyNameText: Emacs Textdokument
+  :infoTipText: Bearbeite die Textdatei in einem neuen Emacs-Frame.
+  :friendlyNameLisp: Emacs Lisp Quelltext
+  :infoTipLisp: Bearbeite die Lisp-Quelldatei in einem neuen Emacs-Frame.
+  :friendlyNameByte: Emacs Lisp ByteCode
+  :infoTipByte: Führe das Programm im Batchmode mit Emacs aus.
