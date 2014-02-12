@@ -1,0 +1,29 @@
+
+Emacs Shell Integration
+
+Das Projekt soll den Editor Emacs besser in den Windows Desktop integrieren.
+Es werden alle Einträge in der Windows-Registry vorgenommen, die für die Nutzung des Editors erforderlich sind.
+
+Voraussetzung
+Damit das Progamm verwendet werden kann muss die Programmiersprache Ruby installiert sein. (http://rubyinstaller.org/downloads/ - verwende Ruby 1.9.3-p484)
+
+Was macht das Programm?
+Es wird eine Steuerungsdatei für den Import der Definitionen in die Registry erzeugt als auch eine Steuerungsdatei für das Entfernen der Definitionen.
+
+- Erstelle alle Registry-Definitionen unter dem Schlüssel HKEY_CURRENT_USER
+- Erzeuge Dateidefinitionen für
+  - Emacs-Textdatei (*.txt)
+  - Emacs-Lisp-Quelldatei (*.el) und
+  - Emacs-List-Bytedatei (*.elc)
+- Definiere die Umgebungsvariablen für die Nutzung des Emacs-Servermodes
+- Füge vorhandenen Quelldatei-Definitionen Emacs als optionalen Editor hinzu
+
+Dokumentation
+Hilfe findest du mit emacs-shell-integration.rb --help
+
+Sprache
+Die Menüeinträge sind standardmäßig in Englisch. In der beiliegenden Datei emacs-shell-languages.yaml können die Menüeinträge in der gewünschten Anzeigesprache definiert werden. Beim Aufruf des Programms muss dann der Parameter --language mit dem Sprachkürzel angegeben werden.
+
+----
+* Copyright (c) Maik Hertha, Alle Rechte vorbehalten.
+* Die Benutzung und Verteilung der Software ist durch die GPL 3.0 geregelt. Siehe die beiliegende Datei COPYING.
