@@ -1,9 +1,10 @@
 #! ruby -w
 # -*- coding: iso-8859-1 -*-
 #
-# setup-emacs-registry.rb
-# Create windows registry definitions to integrate GNU emacs within
-# the windows environment.
+# emacs-shell-integration.rb
+#
+# Create windows registry descriptions to integrate GNU emacs within
+# the windows desktop environment.
 #
 # Copyright (C) 2014 Maik Hertha (mhertha@gmail.com)
 #
@@ -516,7 +517,7 @@ def load_localization(lang_key)
     :infoTipByte => 'Run in Emacs Batch Mode.'
   }
   
-  language_yaml = 'setup-emacs-language.yaml'
+  language_yaml = 'emacs-shell-languages.yaml'
   if (File::exist?(language_yaml))
     require 'yaml'
     YAML::ENGINE.yamler = 'syck'
@@ -531,8 +532,8 @@ end
 
 local_machine_registry = "HKEY_LOCAL_MACHINE"
 current_user_registry = "HKEY_CURRENT_USER"
-default_setup_file = 'emacs-setup-create.reg'
-default_cleanup_file = 'emacs-setup-cleanup.reg'
+default_setup_file = 'emacs-shell-setup.reg'
+default_cleanup_file = 'emacs-shell-cleanup.reg'
 default_home_dir = '%APPDATA%'
 default_editor = 'runemacs.exe'
 default_language = 'en'
@@ -552,7 +553,7 @@ options = {
 opt_parser = OptionParser.new do |opts|
   opts.on('-h', '--help', 'Display this help') do
     puts <<-EOL
-setup-emacs-registry.rb
+emacs-shell-integration.rb
 Copyright (C) 2014 Maik Hertha
     
 This program comes with ABSOLUTELY NO WARRANTY.
