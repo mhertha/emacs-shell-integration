@@ -1,1 +1,28 @@
-Das soll die README werden.
+
+Emacs Shell Integration
+
+The aim for this project is a better integration of GNU Emacs into the Windows Desktop Environment. The program generates all required resgistry items for a powerfull usage of the editor.
+
+Requirements
+The script language Ruby has to be installed before you can use this script. Use Ruby 1.9.3-p484 from http://rubyinstaller.org/downloads/.
+
+What does this?
+The script generates a registry file to import within regedit32.exe. The same time also a registry file for removing the items is generated.
+
+- all registry items are located under registry hive HKEY_CURRENT_USER
+- generated file definitions are
+  - Emacs.TextFile (*.txr)
+  - Emacs.LispSource (*.el)
+  - Emacs.LispByteCode (*.elc)
+- define enviroment variables to use emacs in server mode
+- create keys for a couple of source file definitions to add emacs as optional editor
+
+Documentation
+Help can be found with emacs-shell-integration.rb --help.
+
+Language
+All context menu items are in plain English. To use your local language see emacs-shell-languages.yaml for further addition. You select the language with parameter --language <lang-short>.
+
+----
+* Copyright (c) Maik Hertha, All rights reserved.
+* Usage and distribution for this software conforms with the GPL 3.0. See enclosed file COPYING.
